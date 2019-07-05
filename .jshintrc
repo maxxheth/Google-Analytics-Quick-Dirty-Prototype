@@ -1,0 +1,12 @@
+{
+    "esversion": 9, 
+    "strict": "implied",
+    "noempty": true,
+    "shadow": true,
+    "undef" : true,
+    "unused": true,
+    "varstmt" : true,
+    "freeze": true,
+    "curly": true,
+    "asi": false
+}
