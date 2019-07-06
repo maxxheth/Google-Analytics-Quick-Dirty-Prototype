@@ -12,9 +12,8 @@ ini_set('display_errors', 1);
  * 2. Check to make sure that each array prop is a) a string and that all HTML elements are properly escaped.
  * 
  * 3. Filter out unnecessary characters aggressively because a) we're only expecting very specific types of input and b)
- * this application will mainly be for internal, corporate use, so we can afford to be particularly aggressive
- * as to the types of input we choose to accept.
- * 
+ * this application will mainly be for internal, corporate use, so we can afford to be particularly choosy
+ * as to the types of input we accept.
  */
 
 function filterNestedArrayParams($params) {
