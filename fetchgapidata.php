@@ -3,13 +3,37 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require('helper_funcs/pretty_print.php');
+require(__DIR__ . '/helper_funcs/helperFuncsLoader.php');
+
+/**
+ * The original code that this 
+ * originated from is located here: https://developers.google.com/analytics/devguides/reporting/core/v4/quickstart/service-php
+ * 
+ * The idea is to split up the core service components into 
+ * separate and modular functions that can be combined with
+ * helper functions that help process arguments for each service
+ * component in a streamlined fashion. 
+ * 
+ * 
+ */
 
 // Grab $POST data for API requests
 
 $POST = file_get_contents('php://input');
 
-print_r($POST);
+$post_data = json_decode($POST, true);
+
+$dateArgs = $post_data['dateArgs'];
+
+$metricArgs = $post_data['metricArgs'];
+
+$dimensionArgs = isset($post_data['dimensionArgs']) ? $post_data['dimensionArgs'] : null;
+
+$filteredDateArgs = filterNestedArrayArgs($dateArgs);
+
+$filteredMetricArgs = filterNestedArrayArgs($metricArgs);
+
+$filteredDimensionArgs = filterNestedArrayArgs($dimensionArgs);
 
 // Load the Google API PHP Client Library, VIEW_ID, and API creds.
 require_once __DIR__ . '/vendor/autoload.php';
@@ -27,6 +51,31 @@ $client->addScope(Google_Service_Analytics::ANALYTICS_READONLY);
 // Create an authorized analytics service object.
 $analytics = new Google_Service_AnalyticsReporting($client);
 
+
+
+$combinedArgs = massArrayMerge($filteredDateArgs, $filteredMetricArgs, $filteredDimensionArgs = null);
+
+$unpackedArgsArray = unpackArgsAssemblyLine($combinedArgs);
+
+// print_r($unpackedArgsArray);
+
+// $reportArray = array_reduce($unpackedArgsArray, function($acc, $curr) {
+
+//   $report = call_user_func_array('createReport', $curr);
+
+//   $acc[] = getResults($report);
+
+//   return $acc;
+
+// }, array());
+
+$reportArray = generateReportArray('createReport', 'getResults', $unpackedArgsArray);
+
+print_r(json_decode($reportArray));
+
+// $report01 = call_user_func_array('createReport', $GAPIArgs01);
+
+// printResults($report01);
 
 function setDates($startDate, $endDate) {
 
@@ -48,7 +97,16 @@ function setMetrics($expression, $alias) {
 
 }
 
-function fetchReportData($dateRange, $metricsObj) {
+function setDimension($name) {
+  
+  $dimensionsObj = new Google_Service_AnalyticsReporting_Dimension();
+  $dimensionsObj->setName($name);
+
+  return $dimensionsObj;
+
+}
+
+function fetchReportData($dateRange, $metricsObj, $dimensionObj = null) {
 
   global $VIEW_ID, $analytics;
 
@@ -56,6 +114,10 @@ function fetchReportData($dateRange, $metricsObj) {
   $request->setViewId($VIEW_ID);
   $request->setDateRanges($dateRange);
   $request->setMetrics(array($metricsObj));
+  
+  if (isset($dimensionObj)) {
+    $request->setDimensions(array($dimensionObj));
+  }
 
   $body = new Google_Service_AnalyticsReporting_GetReportsRequest();
   $body->setReportRequests( array( $request) );
@@ -63,16 +125,31 @@ function fetchReportData($dateRange, $metricsObj) {
 
 } 
 
-function createReport($startDate, $endDate, $expr, $alias) {
+function createReport($startDate, $endDate, $expr, $alias, $name = null) {
 
-    $dateRange = setDates($startDate, $endDate);
-    $metricsObj = setMetrics($expr, $alias);
-    $reportData = fetchReportData($dateRange, $metricsObj);
+  $dateRange = setDates($startDate, $endDate);
+    
+  $metricsObj = setMetrics($expr, $alias);
+
+  if (!isset($name)) {
+
+    $reportData = fetchReportData($dateRange, $metricsObj, null);
+
     return $reportData;
+
+  } else {
+
+    $dimensionObj = setDimension($name);
+    
+    $reportData = fetchReportData($dateRange, $metricsObj, $dimensionObj);
+
+    return $reportData;
+
+  }   
 
 }
 
-function printResults($reports) { 
+function getResults($reports) { 
   
   for ( $reportIndex = 0; $reportIndex < count( $reports ); $reportIndex++ ) {
     $report = $reports[ $reportIndex ];
@@ -88,7 +165,6 @@ function printResults($reports) {
 
       if (isset($dimensionHeaders) && is_array($dimensionHeaders)) {
         for ($i = 0; $i < count($dimensionHeaders) && $i < count($dimensions); $i++) {
-          
 
           $dimensionData = array(
 
@@ -98,8 +174,6 @@ function printResults($reports) {
             )
             
           );
-
-          print_r(json_encode($dimensionData));
          
         }
 
@@ -112,15 +186,27 @@ function printResults($reports) {
 
           $value = $values[$k];
 
-          $metricData = array(
-            'metricData' => array(
-              'metricName' => $entry->getName(),
-              'metricValue' => $value
-            )
-            
-          );
+          if (!empty($dimensionData)) {
+            $metricData = array(
+              $dimensionData,
+              'metricData' => array(
+                'metricName' => $entry->getName(),
+                'metricValue' => $value
+              )
+              
+            );
+          } else {
 
-          print_r(json_encode($metricData));
+            $metricData = array(
+              'metricData' => array(
+                'metricName' => $entry->getName(),
+                'metricValue' => $value
+              )
+            );
+
+          }
+
+          return $metricData;
          
         }
       }
