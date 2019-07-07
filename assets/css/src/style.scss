@@ -1,1 +1,7 @@
-@import "base";
+//@import "../../../node_modules/uikit/src/scss/variables-theme.scss";
+//@import "../../../node_modules/uikit/src/scss/mixins-theme.scss";
+@import "../../../node_modules/uikit/dist/css/uikit.css";
+@import "variables/colors";
+@import "menu/offcanvas";
+@import "base/layout";
+@import "panel/panel";
