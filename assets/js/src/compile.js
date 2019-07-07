@@ -1,30 +1,12 @@
-import App from './view.js';
+import { el, mount } from 'redom';
+import { Panel, panelTitle } from './view/panel';
 
-import { mount } from 'redom';
+const panel = new Panel();
 
-import { fetchData } from './logic/fetch-data';
+const view = el('view', [panelTitle, panel]);
 
+const sidebar = el('sidebar');
 
+const dashboard = el('dashboard', [view, sidebar]);
 
-const app = new App();
-
-app.checkbox.addEventListener('click', () => {
-
-    app.update();
-
-});
-
-mount(document.body, app);
-
-fetchData();
-
-// const gaProps = getGAProps();
-
-// const GAPIPropObj = gaProps.map(prop => ({
-
-//     expression: prop,
-//     alias: prop.slice(3, prop.length)
-
-// })); 
-
-// console.log(GAPIPropObj);
+mount(document.body, view); 
