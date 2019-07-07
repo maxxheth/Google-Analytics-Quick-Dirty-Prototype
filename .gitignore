@@ -1,9 +1,0 @@
-node_modules
-.cache
-vendor
-package-lock.json
-composer.lock
-assets/js/dist/bundle.js.map
-misc/googleapi.js
-tnt-auth.json
-assets/js/dist/bundle.js
