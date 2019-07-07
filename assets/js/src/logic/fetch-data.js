@@ -2,28 +2,6 @@ import axios from 'axios';
 
 const googleAPIPath = '../../../../fetchgapidata.php';
 
-// import { getMetricProps } from './logic/metric_props';
-
-// const metricProps = getMetricProps().map(prop => ({
-
-//     expression: prop,
-//     alias: prop.slice(3, prop.length)
-
-// })); 
-
-// const dateParamsArray = [];
-
-// const defaultDateParams = {
-//     startDate: "30daysAgo",
-//     endDate: "today",
-// };
-
-// for (let x = 0; x < 504; x++) {
-
-//     dateParamsArray.push(defaultDateParams);
-
-// }
-
 export const fetchData = () => {
 
 try {
@@ -31,9 +9,33 @@ try {
     axios.post(googleAPIPath, {
 
         dateArgs: [{
+            startDate: "15daysAgo",
+            endDate: "today"
+        },
+        {
             startDate: "30daysAgo",
             endDate: "today"
         }],
+
+        metricArgs: [{
+            
+            expression: "ga:users",
+            alias: "users"
+
+        }, 
+        {
+            expression: "ga:sessions",
+            alias: "sessions"
+        }],
+
+        dimensionArgs: [{
+
+            name: "ga:sessionCount",
+
+        }, 
+        {
+            name: "ga:sessionDurationBucket"
+        }]
 
         /**
          * 
