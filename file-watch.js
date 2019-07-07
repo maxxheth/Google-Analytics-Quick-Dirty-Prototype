@@ -70,7 +70,7 @@ gaze('./assets/css/src/**/*.scss', (err, watcher) => {
 
 });
 
-gaze('./assets/css/dist/style.css', (err, watcher) => {
+gaze('./assets/css/dist/*.css', (err, watcher) => {
 
     if (err) console.log(err);
 
@@ -79,12 +79,5 @@ gaze('./assets/css/dist/style.css', (err, watcher) => {
         console.log(`${filename} was updated!`);
 
     });
-
-    // setTimeout(() => {
-
-    //     console.clear();
-    
-    // }, 1000);
-
 
 });
