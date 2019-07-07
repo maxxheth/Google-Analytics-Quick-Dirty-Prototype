@@ -3,7 +3,7 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require(__DIR__ . '/helper_funcs/helperFuncsLoader.php');
+require(__DIR__ . '\helper_funcs\helperFuncsLoader.php');
 
 /**
  * The original code that this 
@@ -55,27 +55,14 @@ $analytics = new Google_Service_AnalyticsReporting($client);
 
 $combinedArgs = massArrayMerge($filteredDateArgs, $filteredMetricArgs, $filteredDimensionArgs = null);
 
+// prettyPrint($combinedArgs);
+
 $unpackedArgsArray = unpackArgsAssemblyLine($combinedArgs);
-
-// print_r($unpackedArgsArray);
-
-// $reportArray = array_reduce($unpackedArgsArray, function($acc, $curr) {
-
-//   $report = call_user_func_array('createReport', $curr);
-
-//   $acc[] = getResults($report);
-
-//   return $acc;
-
-// }, array());
 
 $reportArray = generateReportArray('createReport', 'getResults', $unpackedArgsArray);
 
-print_r(json_decode($reportArray));
+print_r(json_encode($reportArray));
 
-// $report01 = call_user_func_array('createReport', $GAPIArgs01);
-
-// printResults($report01);
 
 function setDates($startDate, $endDate) {
 
@@ -149,8 +136,8 @@ function createReport($startDate, $endDate, $expr, $alias, $name = null) {
 
 }
 
-function getResults($reports) { 
-  
+function getResults($reports) {
+
   for ( $reportIndex = 0; $reportIndex < count( $reports ); $reportIndex++ ) {
     $report = $reports[ $reportIndex ];
     $header = $report->getColumnHeader();
@@ -181,6 +168,9 @@ function getResults($reports) {
 
       for ($j = 0; $j < count($metrics); $j++) {
         $values = $metrics[$j]->getValues();
+
+        
+
         for ($k = 0; $k < count($values); $k++) {
           $entry = $metricHeaders[$k];
 
@@ -191,7 +181,11 @@ function getResults($reports) {
               $dimensionData,
               'metricData' => array(
                 'metricName' => $entry->getName(),
-                'metricValue' => $value
+                'metricValue' => $value,
+                // 'dateRange' => array( 
+                //   'startDate' => $combinedArgs[$j]['startDate'],
+                //   'endDate' => $combinedArgs[$j]['endDate']
+                // )
               )
               
             );
@@ -200,7 +194,11 @@ function getResults($reports) {
             $metricData = array(
               'metricData' => array(
                 'metricName' => $entry->getName(),
-                'metricValue' => $value
+                'metricValue' => $value,
+                // 'dateRange' => array( 
+                //   'startDate' => $combinedArgs[$j]['startDate'],
+                //   'endDate' => $combinedArgs[$j]['endDate']
+                // )
               )
             );
 
