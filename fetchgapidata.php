@@ -51,8 +51,6 @@ $client->addScope(Google_Service_Analytics::ANALYTICS_READONLY);
 // Create an authorized analytics service object.
 $analytics = new Google_Service_AnalyticsReporting($client);
 
-
-
 $combinedArgs = massArrayMerge($filteredDateArgs, $filteredMetricArgs, $filteredDimensionArgs = null);
 
 // prettyPrint($combinedArgs);
@@ -181,11 +179,7 @@ function getResults($reports) {
               $dimensionData,
               'metricData' => array(
                 'metricName' => $entry->getName(),
-                'metricValue' => $value,
-                // 'dateRange' => array( 
-                //   'startDate' => $combinedArgs[$j]['startDate'],
-                //   'endDate' => $combinedArgs[$j]['endDate']
-                // )
+                'metricValue' => $value
               )
               
             );
@@ -194,11 +188,7 @@ function getResults($reports) {
             $metricData = array(
               'metricData' => array(
                 'metricName' => $entry->getName(),
-                'metricValue' => $value,
-                // 'dateRange' => array( 
-                //   'startDate' => $combinedArgs[$j]['startDate'],
-                //   'endDate' => $combinedArgs[$j]['endDate']
-                // )
+                'metricValue' => $value
               )
             );
 
