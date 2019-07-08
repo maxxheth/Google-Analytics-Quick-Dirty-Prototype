@@ -1,5 +1,5 @@
 import { el, mount } from 'redom';
-import { Panel, panelTitle, ToggleButton } from './view/panel';
+import { Panel, panelTitle, ToggleButton } from './view/panel-components';
 import { Menu } from './view/menu-components';
 import { menuEventHandler } from './events/menu-events';
 
