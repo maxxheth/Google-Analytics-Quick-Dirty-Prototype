@@ -1,20 +1,42 @@
 import { el } from 'redom';
 
-
 export const panelTitle = el('h1.panel__title', "Analytics Dashboard");
+
+export class ToggleButton {
+
+    constructor() {
+
+        this.el = el('button.toggle');
+        this.toggle = true;
+
+    }
+
+    update(text, toggle) {
+
+        this.el.textContent = text;
+        this.toggle = toggle; 
+
+    }
+
+}
 
 class PanelCard {
 
     constructor(title = "title", content = "content") {
+
         this.el = el('panel-card.uk-card.uk-card-body.uk-card-primary',
+
             this.PanelCardTitle = el('h3.panel-card__title.uk-card-title', title),
             this.PanelCardContent = el('p.panel-card__content', content)
+
         );
+
     }
 
 }
 
 export class Panel {
+
     constructor() {
 
         this.el = el('panel.panel.uk-grid',
@@ -25,6 +47,7 @@ export class Panel {
             this.panelCard_04 = new PanelCard("Card Title 04", "Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus")
 
         );
+
     }
 
 }
