@@ -1,12 +1,21 @@
 import { el, mount } from 'redom';
-import { Panel, panelTitle } from './view/panel';
+import { Panel, panelTitle, ToggleButton } from './view/panel';
+import { Menu } from './view/menu-components';
+import { menuEventHandler } from './events/menu-events';
+
 
 const panel = new Panel();
 
-const view = el('view', [panelTitle, panel]);
+const toggleButton = new ToggleButton();
 
-const sidebar = el('sidebar');
+toggleButton.update('Open', true);
 
-const dashboard = el('dashboard', [view, sidebar]);
+const view = el('div.view', [toggleButton, panelTitle, panel]);
 
-mount(document.body, view); 
+const sidebar = new Menu();
+
+const dashboard = el('dashboard', [sidebar, view]);
+
+mount(document.body, dashboard);
+
+menuEventHandler(toggleButton);
