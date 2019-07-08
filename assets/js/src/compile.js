@@ -10,11 +10,11 @@ const toggleButton = new ToggleButton();
 
 toggleButton.update('Open', true);
 
-const view = el('div.view', [toggleButton, panelTitle, panel]);
+const view = el('article.view', [toggleButton, panelTitle, panel]);
 
 const sidebar = new Menu();
 
-const dashboard = el('dashboard', [sidebar, view]);
+const dashboard = el('main.dashboard', [sidebar, view]);
 
 mount(document.body, dashboard);
 
