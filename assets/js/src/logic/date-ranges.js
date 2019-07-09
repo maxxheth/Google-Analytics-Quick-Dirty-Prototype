@@ -1,56 +1,64 @@
 import moment from 'moment';
 
-export const dateRangeObj = {
+export const makeDateRangeObject = (num = 0, unit = "days") => ({ num_days: [num, unit] });
 
-    today: [0, "days"],
-    yesterday: [1, "days"],
-    seven_days: [7, "days"],
-    fourteen_days: [14, "days"],
-    twentyeight_days: [28, "days"]
+export const setDateRange = dateRange => dateRangeObject => {
 
-};
+    const momentDate = dateRangeObject[dateRange];
 
-export const makeDateRangeObj = (num = 0, unit = "days") => ({ num_days: [num, unit] });
-
-export const setDateRange = dateRange => dateRangeObj => {
-
-    const momentDate = dateRangeObj[dateRange];
-
-    const calcDateObj = moment()
+    const calcDateObject = moment()
     
     .subtract(...momentDate);
 
-    return calcDateObj;
+    return calcDateObject;
 
 };
 
-export const extrapolateDateRange = dateRange => dateRangeObj => calcDateObj => {
+export const extrapolateDateRange = dateRange => dateRangeObject => calcDateObject => {
 
     const GAPIFormat = 'YYYY-MM-DD';
 
-    if (dateRangeObj[dateRange] === undefined || calcDateObj === undefined) return;
+    debugger;
+
+    if (dateRangeObject[dateRange] === undefined || calcDateObject === undefined) return;
 
     const dateRanges = [];
 
-    switch(dateRangeObj[dateRange]) {
+    console.info(dateRangeObject[dateRange]);
 
-        case 'today': 
+    const todaysDate = moment().format(GAPIFormat);
+
+    const yesterdaysDate = moment().subtract(1, "day").format(GAPIFormat);
+
+    switch(dateRange) {
+
+        case "today": 
         
-        return moment().format(GAPIFormat);
+        return [todaysDate, todaysDate];
+
+        case "yesterday": 
+
+        return [yesterdaysDate, todaysDate];
 
         default: 
 
-            for (let y = 1; y <= dateRangeObj[dateRange][0]; y++) {
+            for (let y = 1; y <= dateRangeObject[dateRange][0]; y++) {
 
-                let dateRange = calcDateObj.add(1, 'days').format(GAPIFormat);
+                let dateRange = calcDateObject.add(1, 'days').format(GAPIFormat);
 
                 dateRanges.push(dateRange);
 
             }
 
+            // console.log(dateRanges);
+
         break;
 
     }
+
+    
+
+    
 
     return dateRanges;
 
