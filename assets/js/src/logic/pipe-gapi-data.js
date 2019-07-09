@@ -65,7 +65,9 @@ export const pipeDataPropPairs = callback => (...dataPropPairs) =>  {
 
 };
 
-export const createGAPIRequestObject = (...props) => {
+export const createGAPIRequestObject = props => {
+
+    console.log(props);
 
     const newPropObj = props.reduce((acc, currProp) => {
 

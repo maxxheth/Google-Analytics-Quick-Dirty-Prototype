@@ -21,6 +21,8 @@ require(__DIR__ . '\helper_funcs\helperFuncsLoader.php');
 
 $POST = file_get_contents('php://input');
 
+// print_r($POST);
+
 $post_data = json_decode($POST, true);
 
 $dateArgs = $post_data['dateArgs'];
