@@ -2,7 +2,10 @@ import { el, mount } from 'redom';
 import { Panel, panelTitle, ToggleButton } from './view/panel-components';
 import { Menu } from './view/menu-components';
 import { menuEventHandler } from './events/menu-events';
-import { dateRangeObj, setDateRange, extrapolateDateRange } from './logic/date-ranges';
+// import { setDateRange, extrapolateDateRange } from './logic/date-ranges';
+// import { dateRangeObj } from './data/date-ranges';
+
+import { sendGAPIRequests } from './events/gapi-events';
 
 
 const panel = new Panel();
@@ -21,8 +24,10 @@ mount(document.body, dashboard);
 
 menuEventHandler(toggleButton);
 
-const calcDateObj = setDateRange('seven_days')(dateRangeObj);
+sendGAPIRequests();
 
-const dateRanges = extrapolateDateRange('seven_days')(dateRangeObj)(calcDateObj);
+// const calcDateObj = setDateRange('seven_days')(dateRangeObj);
 
-console.log(dateRanges);
+// const dateRanges = extrapolateDateRange('seven_days')(dateRangeObj)(calcDateObj);
+
+// console.log(dateRanges);
