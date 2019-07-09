@@ -2,46 +2,15 @@ import axios from 'axios';
 
 const googleAPIPath = '../../../../fetchgapidata.php';
 
-export const fetchData = () => {
+export const fetchData = (metricArgsObjects, dateArgsObjects) => { 
 
 try {
 
     axios.post(googleAPIPath, {
 
-        dateArgs: [{
-            startDate: "15daysAgo",
-            endDate: "today"
-        },
-        {
-            startDate: "30daysAgo",
-            endDate: "today"
-        }],
+        dateArgs: dateArgsObjects.dateArgs,
 
-        metricArgs: [{
-            
-            expression: "ga:users",
-            alias: "users"
-
-        }, 
-        {
-            expression: "ga:sessions",
-            alias: "sessions"
-        }],
-
-        dimensionArgs: [{
-
-            name: "ga:sessionCount",
-
-        }, 
-        {
-            name: "ga:sessionDurationBucket"
-        }]
-
-        /**
-         * 
-         * Add metrics and dimension args as well.
-         * 
-         */
+        metricArgs: metricArgsObjects.metricArgs,
 
 
     })
