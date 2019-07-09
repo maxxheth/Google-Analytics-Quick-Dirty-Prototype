@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bundleJS": "parcel build assets/js/src/compile.js -d assets/js/dist/ --out-file bundle.js",
+    "bundleJS": "parcel build --public-url ./ assets/js/src/compile.js -d assets/js/dist/ --out-file bundle.js",
     "nodeSass": "node-sass assets/css/src/style.scss assets/css/src/postcss.css",
     "postCSS": "node postcss-bundler.js",
     "bundleCSS": "npm run nodeSass && npm run postCSS",
