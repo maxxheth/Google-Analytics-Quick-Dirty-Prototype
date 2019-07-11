@@ -1,3 +1,5 @@
+/* global document */
+
 import  { setMetrics, setDates } from '../logic/pipe-gapi-data';
 import { dateRangeObject } from '../data/date-ranges';
 import { setDateRange, extrapolateDateRange } from '../logic/date-ranges';
