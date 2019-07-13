@@ -3,23 +3,28 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-function unpackArgsAssemblyLine($combinedParams) {
+function unpackArgsAssemblyLine($combinedParams = array()) {
 
-  $unpackedParams = array_reduce($combinedParams, function($acc, $curr) {
+  if (is_array($combinedParams)) {
 
-    $acc[] = unpackArgs($curr);
-  
-    return $acc;
-  
-  }, array());
+    $unpackedParams = array_reduce($combinedParams, function($acc, $curr) {
 
-  return $unpackedParams;
+      $acc[] = unpackArgs($curr);
+    
+      return $acc;
+    
+    }, array());
+
+    return $unpackedParams;
+
+  }
 
 }
 
 
 function unpackArgs($array = array()) {
 
+    if (is_array($array)) {
     $arrayArgs = array_reduce($array, function($acc, $curr) use ($array) {  
 
         switch(key($array)) {
@@ -51,4 +56,7 @@ function unpackArgs($array = array()) {
     return $arrayArgs;
 
 }
+
+}
+
 
