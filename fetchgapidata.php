@@ -3,6 +3,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+// header("Access-Control-Allow-Origin: *");
+
 require(__DIR__ . '\helper_funcs\helperFuncsLoader.php');
 
 /**
@@ -24,6 +26,8 @@ $POST = file_get_contents('php://input');
 // print_r($POST);
 
 $post_data = json_decode($POST, true);
+
+// print_r($post_data);
 
 $dateArgs = $post_data['dateArgs'];
 
