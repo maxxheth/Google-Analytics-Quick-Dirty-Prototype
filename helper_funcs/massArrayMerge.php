@@ -15,15 +15,26 @@ function massArrayMerge($array01, $array02, $array03 = null) {
 
   } else {
 
-    foreach($array01 as $subarrayKey => $subarray) {
+    if (isset($array01) && is_array($array01)) {
 
-      $newArray[] = array_merge($subarray, $array02[$subarrayKey]);
-  
+      foreach($array01 as $subarrayKey => $subarray) {
+
+        $newArray[] = array_merge($subarray, $array02[$subarrayKey]);
+    
+      }
+
+      return $newArray;
+    
     }
+
+    // } else {
+      
+    //   print_r($array01);
+
+    // }
 
   }
   
-  return $newArray;
   
 }
 
