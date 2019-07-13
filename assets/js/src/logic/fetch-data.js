@@ -12,8 +12,6 @@ let state = [{key: ['value']}];
 
 export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
-    console.log(dateArgsObjects);
-
     const isJSON = payload => {
 
         try {
@@ -61,25 +59,23 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
                 }
 
-                console.log( metricDateResults );
-
-                console.log( metricDateResults );
-
                 const metricDataResults = liftMetricPropsFromArray(metricData);
 
                 const metricDataResultsKey = Object.keys(metricDataResults)[0];
 
                 const metricDataResultsArray = Object.values(metricDataResults)[0];
 
-                console.log( metricDataResults );
-
                 const chart = document.getElementById('panel-chart');
 
                 chart.style.backgroundColor = 'white';
                     
                 let displayChart;
+
+                console.log(state);
                 
-                if (!displayChart) {
+                if (state[state.length - 1]['displayChart'] === undefined) {
+
+                    console.log("displayChart doesn't exist...yet!");
 
                     displayChart = new Chart(chart.getContext('2d'), {
 
@@ -113,7 +109,22 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
                     });
 
+                    state = setState(state)({
+                    
+                        displayChart: displayChart,
+                        metricDataResultsKey: metricDataResultsKey,
+                        metricDataResultsArray: metricDataResultsArray,
+                        metricDateResults: metricDateResults
+                    
+                    });
+
                 } else {
+
+                    console.log("displayChart already exists");
+
+                    console.log(state);
+
+                    displayChart = state[state.length - 1].displayChart;
 
                     let data = displayChart.data;
 
@@ -136,18 +147,22 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
                         }
 
                     }
+
+                    displayChart.update();
+
+                    state = setState(state)({
+                    
+                        displayChart: displayChart,
+                        metricDataResultsKey: metricDataResultsKey,
+                        metricDataResultsArray: metricDataResultsArray,
+                        metricDateResults: metricDateResults
+                    
+                    });
                     
 
                 }
 
-                state = setState(state)({
-                    
-                    displayChart: displayChart,
-                    metricDataResultsKey: metricDataResultsKey,
-                    metricDataResultsArray: metricDataResultsArray,
-                    metricDateResults: metricDateResults
                 
-                });
 
                 console.log(state);
                
