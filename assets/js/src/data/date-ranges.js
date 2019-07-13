@@ -16,7 +16,7 @@ export const dateRangeOptions = [
     },
     {
         value: "yesterday",
-        text: "Since yesterday"
+        text: "Yesterday"
     },
     {
         value: "seven_days",
