@@ -1,6 +1,6 @@
 import moment from 'moment';
 
-export const makeDateRangeObject = (num = 0, unit = "days") => ({ num_days: [num, unit] });
+export const makeDateRangeObject = (num = 0, unit = "day") => ({ num_days: [num, unit] }); 
 
 export const setDateRange = dateRange => dateRangeObject => {
 
@@ -13,12 +13,9 @@ export const setDateRange = dateRange => dateRangeObject => {
     return calcDateObject;
 
 };
-
 export const extrapolateDateRange = dateRange => dateRangeObject => calcDateObject => {
 
     const GAPIFormat = 'YYYY-MM-DD';
-
-    debugger;
 
     if (dateRangeObject[dateRange] === undefined || calcDateObject === undefined) return;
 
@@ -50,15 +47,11 @@ export const extrapolateDateRange = dateRange => dateRangeObject => calcDateObje
 
             }
 
-            // console.log(dateRanges);
-
         break;
 
     }
 
-    
-
-    
+    console.log(dateRanges);
 
     return dateRanges;
 
