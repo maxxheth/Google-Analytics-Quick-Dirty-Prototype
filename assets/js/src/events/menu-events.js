@@ -1,3 +1,5 @@
+/* global document */
+
 const setStyleProps = menuElem => viewElem => styleProps => {
 
     const { width, marginLeft } = styleProps;
