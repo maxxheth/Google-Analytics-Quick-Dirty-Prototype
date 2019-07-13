@@ -5,36 +5,34 @@ ini_set('display_errors', 1);
 
 function massArrayMerge($array01, $array02, $array03 = null) {
 
-  if (isset($array03)) {
+  if (is_array($array01)) {
 
-    foreach($array01 as $subarrayKey => $subarray) {
+    // if (isset($array03)) {
 
-      $newArray[] = array_merge($subarray, $array02[$subarrayKey], $array03[$subarrayKey]);
-  
-    }
-
-  } else {
-
-    if (isset($array01) && is_array($array01)) {
+    if (is_array($array03)) {
 
       foreach($array01 as $subarrayKey => $subarray) {
 
-        $newArray[] = array_merge($subarray, $array02[$subarrayKey]);
+        $newArray[] = array_merge($subarray, $array02[$subarrayKey], $array03[$subarrayKey]);
     
       }
 
-      return $newArray;
-    
+    } else {
+
+      if (is_array($array02)) {
+
+        foreach($array01 as $subarrayKey => $subarray) {
+
+          $newArray[] = array_merge($subarray, $array02[$subarrayKey]);
+      
+        }
+
+        return $newArray;
+      
+      }
+
     }
 
-    // } else {
-      
-    //   print_r($array01);
-
-    // }
-
   }
-  
-  
+   
 }
-
