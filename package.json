@@ -52,6 +52,7 @@
     "livereload-js": "^3.0.0",
     "node-watch": "^0.6.2",
     "parallax-vanilla": "^1.1.2",
+    "randomcolor": "^0.5.4",
     "redom": "^3.24.0",
     "smoothscroll-for-websites": "^1.4.6",
     "swiper": "^4.3.5",
