@@ -20,11 +20,6 @@ let state = [];
 
 export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
-    /*console.log(metricArgsObjects);
-    console.log(dateArgsObjects);*/
-
-    //console.log(dateArgsObjects.dateArgs);
-
     let metricDateResults = dateArgsObjects.dateArgs
 
         .map(dateArg => dateArg.startDate)
@@ -94,8 +89,6 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
                 let displayChart;
 
-                //console.log(state);
-
                 if (state.length === 0) {
 
                     console.log("displayChart doesn't exist...yet!");
@@ -146,22 +139,11 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
                     console.log("displayChart already exists");
 
-                    //console.log(state);
-
                     displayChart = state[state.length - 1].displayChart;
 
                     let data = displayChart.data;
 
-                    //console.log(displayChart);
-
                     for (let prop in data) {
-
-                        // const currentLabel = data[prop].label;
-
-                        /*console.log(data[prop].label);
-                        console.log(data[prop].data);*/
-						
-						
 
                         const getNewFetchData = propArr => propArr.map(prop => { // jshint ignore:line
 
@@ -195,37 +177,6 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
                                     metricDataResultsArray: metricDataResultsArray
                                 })(backgroundColorProps)(borderColorProps)];
 
-                            /*newDataPropFetchData.map(newDataset => {
-
-                            console.log(newDataset);
-
-
-
-                            const { newMetricArgsObjects, newDateArgsObjects } = newDataset;
-
-                            console.log(newDateArgsObjects);
-
-                            fetchData(newMetricArgsObjects, newDateArgsObjects, 10);
-
-                            if (recurseLimit > 0) {
-
-
-                            fetchData(newMetricArgsObjects, newDateArgsObjects, displayChart.data.dataset.length);
-
-
-
-                            recurseLimit--;
-
-                            } else {
-
-                            data[prop] = [...data[prop], createDataset({ metricDataResultsKey: metricDataResultsKey, metricDataResultsArray: metricDataResultsArray})(backgroundColorProps)(borderColorProps)];
-
-                            return;
-
-                            }
-
-                            });*/
-
                             break;
 
                         }
@@ -240,13 +191,9 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
                             metricDataResultsKey: metricDataResultsKey,
                             metricDataResultsArray: metricDataResultsArray,
                             metricDateResults: metricDateResults,
-                            //recurseLimit: recurseLimit
-
                         });
 
                 }
-
-                // console.log(state);
 
             }
 
