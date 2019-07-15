@@ -1,40 +1,38 @@
 /* global XMLHttpRequest */
 
-import { isJSON } from '../helper-funcs/is-json';
+import { isJSON } from '../helper-funcs/is-json';  
 
-import { createDataset } from './chart-datasets';
+import { createDataset } from './chart-datasets';  
 
-import { liftMetricPropsFromArray } from '../logic/lift-metric-props';
+import { liftMetricPropsFromArray } from '../logic/lift-metric-props'; 
 
 import { setState } from './state';
 
 const googleAPIPath = '../../../../fetchgapidata.php';
 
 export const refetchData = refetchProps => state => {
-	
-	let displayChart = state[state.length - 1].displayChart;
-	
-	//let metricDateResults = state[state.length - 1].metricDateResults;
+
+    let displayChart = state[state.length - 1].displayChart;
 
     const {
         newMetricArgsObjects,
         newDateArgsObjects
     } = refetchProps;
-	
-	const JSONPackage = {
+
+    const JSONPackage = {
 
         dateArgs: newDateArgsObjects,
         metricArgs: newMetricArgsObjects
 
     };
-	
-	let metricDateResults = newDateArgsObjects
+
+    let metricDateResults = newDateArgsObjects
 
         .map(dateArg => dateArg.startDate)
 
         .filter((dateArg, dateArgIndex, dateArgArray) => dateArgIndex < dateArgArray.length - 1);
-	
-	console.log(JSONPackage);
+
+    console.log(JSONPackage);
 
     const xhr = new XMLHttpRequest();
 
@@ -43,22 +41,22 @@ export const refetchData = refetchProps => state => {
         switch (xhr.readyState) {
 
         case 3:
-		
+
             console.log('Fetching data...');
 
-		break;
-		
-		case 4:		
-		
-			console.log('Data has been fetched successfully!');
-			
-			console.log(xhr.response);
-			
-			if (isJSON(xhr.response)) {
-				
-				const response = JSON.parse(xhr.response);
-				
-				const metricData = JSON.parse(xhr.response).filter(data => data !== null);
+            break;
+
+        case 4:
+
+            console.log('Data has been fetched successfully!');
+
+            console.log(xhr.response);
+
+            if (isJSON(xhr.response)) {
+
+                const response = JSON.parse(xhr.response);
+
+                const metricData = JSON.parse(xhr.response).filter(data => data !== null);
 
                 if (metricData.length < metricDateResults.length) {
 
@@ -89,112 +87,53 @@ export const refetchData = refetchProps => state => {
                     'rgba(153, 102, 255, 1)',
                     'rgba(255, 159, 64, 1)'
                 ];
-				
-				let data = displayChart.data;
 
-                    //console.log(displayChart);
+                let data = displayChart.data;
 
-                    for (let prop in data) {
+                for (let prop in data) {
 
-                        // const currentLabel = data[prop].label;
+                    data[prop] = data[prop].filter(propSet => propSet.label !== metricDataResultsKey); // jshint ignore:line
 
-                        /*console.log(data[prop].label);
-                        console.log(data[prop].data);*/
-						
-						
+                    switch (prop) {
 
-                        /*const getNewFetchData = propArr => propArr.map(prop => { // jshint ignore:line
+                    case 'labels':
+                        data[prop] = metricDateResults;
 
-                                if (prop.label !== undefined && metricDateResults) { // jshint ignore:line
+                        break;
 
-                                    return reformatFetchData(prop.label)(metricDateResults);// jshint ignore:line
+                    case 'datasets':
 
-                                }
+                        data[prop] = [...data[prop], createDataset({
+                                metricDataResultsKey: metricDataResultsKey,
+                                metricDataResultsArray: metricDataResultsArray
+                            })(backgroundColorProps)(borderColorProps)];
 
-                            });*/
-
-                        data[prop] = data[prop].filter(propSet => propSet.label !== metricDataResultsKey); // jshint ignore:line
-
-                        switch (prop) {
-
-                        case 'labels':
-                            data[prop] = metricDateResults;
-
-                            break;
-
-                        case 'datasets':
-
-                            //const newDataPropFetchData = [...getNewFetchData(data[prop])];
-
-                            //console.log(newDataPropFetchData);
-							
-							data[prop] = [...data[prop], createDataset({metricDataResultsKey: metricDataResultsKey, metricDataResultsArray: metricDataResultsArray})(backgroundColorProps)(borderColorProps)];
-							
-							//newDataPropFetchData.forEach(dataset => refetchData(dataset)(state)); // jshint ignore:line
-
-                            
-
-                            /*newDataPropFetchData.map(newDataset => {
-
-                            console.log(newDataset);
-
-
-
-                            const { newMetricArgsObjects, newDateArgsObjects } = newDataset;
-
-                            console.log(newDateArgsObjects);
-
-                            fetchData(newMetricArgsObjects, newDateArgsObjects, 10);
-
-                            if (recurseLimit > 0) {
-
-
-                            fetchData(newMetricArgsObjects, newDateArgsObjects, displayChart.data.dataset.length);
-
-
-
-                            recurseLimit--;
-
-                            } else {
-
-                            data[prop] = [...data[prop], createDataset({ metricDataResultsKey: metricDataResultsKey, metricDataResultsArray: metricDataResultsArray})(backgroundColorProps)(borderColorProps)];
-
-                            return;
-
-                            }
-
-                            });*/
-
-                            break;
-
-                        }
+                        break;
 
                     }
 
-                    displayChart.update();
+                }
 
-                    setState(state)({
+                displayChart.update();
 
-                            displayChart: displayChart,
-                            metricDataResultsKey: metricDataResultsKey,
-                            metricDataResultsArray: metricDataResultsArray,
-                            metricDateResults: metricDateResults,
-                            //recurseLimit: recurseLimit
+                setState(state)({
 
-					});
-				
-				
-			}
-			
-		break;
-			
+                    displayChart: displayChart,
+                    metricDataResultsKey: metricDataResultsKey,
+                    metricDataResultsArray: metricDataResultsArray,
+                    metricDateResults: metricDateResults,
+
+                });
+
+            }
+
+            break;
+
         }
-		
-		
 
     };
-	
-	xhr.open('POST', googleAPIPath);
+
+    xhr.open('POST', googleAPIPath);
 
     xhr.setRequestHeader('Content-Type', 'application/json');
 
