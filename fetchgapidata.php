@@ -9,7 +9,7 @@ require(__DIR__ . '\helper_funcs\helperFuncsLoader.php');
 
 /**
  * The original code that this 
- * originated from is located here: https://developers.google.com/analytics/devguides/reporting/core/v4/quickstart/service-php
+ * is based on is located here: https://developers.google.com/analytics/devguides/reporting/core/v4/quickstart/service-php
  * 
  * The idea is to split up the core service components into 
  * separate and modular functions that can be combined with
@@ -59,14 +59,11 @@ $analytics = new Google_Service_AnalyticsReporting($client);
 
 $combinedArgs = massArrayMerge($filteredDateArgs, $filteredMetricArgs, $filteredDimensionArgs = null);
 
-// prettyPrint($combinedArgs);
-
 $unpackedArgsArray = unpackArgsAssemblyLine($combinedArgs);
 
 $reportArray = generateReportArray('createReport', 'getResults', $unpackedArgsArray);
 
 print_r(json_encode($reportArray));
-
 
 function setDates($startDate, $endDate) {
 
