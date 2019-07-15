@@ -8,33 +8,32 @@ import Chart from 'chart.js';
 
 import { createDataset } from '../data/chart-datasets';
 
+import { reformatFetchData } from '../data/reshape-fetch-data';
+
+import { isJSON } from '../helper-funcs/is-json';
+
+import { refetchData } from '../data/refetch-data'; 
+
 const googleAPIPath = '../../../../fetchgapidata.php';
 
-let state = [{key: ['value']}];
+let state = [];
 
 export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
-    const isJSON = payload => {
+    /*console.log(metricArgsObjects);
+    console.log(dateArgsObjects);*/
 
-        try {
-            JSON.parse(payload);
-            return true;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
-
-    }; 
+    //console.log(dateArgsObjects.dateArgs);
 
     let metricDateResults = dateArgsObjects.dateArgs
-    
-    .map(dateArg => dateArg.startDate)
-    
-    .filter((dateArg, dateArgIndex, dateArgArray) => dateArgIndex < dateArgArray.length - 1);
+
+        .map(dateArg => dateArg.startDate)
+
+        .filter((dateArg, dateArgIndex, dateArgArray) => dateArgIndex < dateArgArray.length - 1);
 
     const JSONPackage = {
 
-        dateArgs: dateArgsObjects.dateArgs, 
+        dateArgs: dateArgsObjects.dateArgs,
         metricArgs: metricArgsObjects.metricArgs
 
     };
@@ -43,21 +42,23 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
     xhr.onreadystatechange = () => {
 
-        switch(xhr.readyState) {
+        switch (xhr.readyState) {
 
-        case 3: console.log('Fetching data...');
+        case 3:
+            console.log('Fetching data...');
 
-        break;
+            break;
 
-        case 4: console.log('Data has been fetched successfully!');
+        case 4:
+            
 
-            if ( isJSON( xhr.response ) ) {
-				
-				console.log(xhr.response);
+            console.log(xhr.response);
+
+            if (isJSON(xhr.response)) {
 
                 const metricData = JSON.parse(xhr.response).filter(data => data !== null);
 
-                if ( metricData.length < metricDateResults.length ) {
+                if (metricData.length < metricDateResults.length) {
 
                     metricDateResults = metricDateResults.slice(0, metricData.length);
 
@@ -86,83 +87,144 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
                     'rgba(153, 102, 255, 1)',
                     'rgba(255, 159, 64, 1)'
                 ];
-				
-				
 
                 const chart = document.getElementById('panel-chart');
 
                 chart.style.backgroundColor = 'white';
-                    
+
                 let displayChart;
 
-                console.log(state);
-                
-                if (state[state.length - 1]['displayChart'] === undefined) {
+                //console.log(state);
+
+                if (state.length === 0) {
 
                     console.log("displayChart doesn't exist...yet!");
 
                     displayChart = new Chart(chart.getContext('2d'), {
 
-                        type: 'line',
-                        data: {
-                            labels: metricDateResults,
-                            datasets: [{
+                            type: 'line',
+                            data: {
+                                labels: metricDateResults,
+                                datasets: [{
 
-                                label: metricDataResultsKey,
-                                data: metricDataResultsArray,
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.2)',
-                                    'rgba(54, 162, 235, 0.2)',
-                                    'rgba(255, 206, 86, 0.2)',
-                                    'rgba(75, 192, 192, 0.2)',
-                                    'rgba(153, 102, 255, 0.2)',
-                                    'rgba(255, 159, 64, 0.2)'
-                                ],
-                                borderColor: [
-                                    'rgba(255, 99, 132, 1)',
-                                    'rgba(54, 162, 235, 1)',
-                                    'rgba(255, 206, 86, 1)',
-                                    'rgba(75, 192, 192, 1)',
-                                    'rgba(153, 102, 255, 1)',
-                                    'rgba(255, 159, 64, 1)'
-                                ],
-                                borderWidth: 1
+                                        label: metricDataResultsKey,
+                                        data: metricDataResultsArray,
+                                        backgroundColor: [
+                                            'rgba(255, 99, 132, 0.2)',
+                                            'rgba(54, 162, 235, 0.2)',
+                                            'rgba(255, 206, 86, 0.2)',
+                                            'rgba(75, 192, 192, 0.2)',
+                                            'rgba(153, 102, 255, 0.2)',
+                                            'rgba(255, 159, 64, 0.2)'
+                                        ],
+                                        borderColor: [
+                                            'rgba(255, 99, 132, 1)',
+                                            'rgba(54, 162, 235, 1)',
+                                            'rgba(255, 206, 86, 1)',
+                                            'rgba(75, 192, 192, 1)',
+                                            'rgba(153, 102, 255, 1)',
+                                            'rgba(255, 159, 64, 1)'
+                                        ],
+                                        borderWidth: 1
 
-                            }]
-                        }
+                                    }
+                                ]
+                            }
 
-                    });
+                        });
 
                     state = setState(state)({
-                    
-                        displayChart: displayChart,
-                        metricDataResultsKey: metricDataResultsKey,
-                        metricDataResultsArray: metricDataResultsArray,
-                        metricDateResults: metricDateResults
-                    
-                    });
+
+                            displayChart: displayChart,
+                            metricDataResultsKey: metricDataResultsKey,
+                            metricDataResultsArray: metricDataResultsArray,
+                            metricDateResults: metricDateResults,
+
+                        });
 
                 } else {
 
                     console.log("displayChart already exists");
 
-                    console.log(state);
+                    //console.log(state);
 
                     displayChart = state[state.length - 1].displayChart;
 
                     let data = displayChart.data;
 
+                    //console.log(displayChart);
+
                     for (let prop in data) {
 
-                        switch(prop) {
+                        // const currentLabel = data[prop].label;
 
-                            case 'labels': data[prop] = metricDateResults;
+                        /*console.log(data[prop].label);
+                        console.log(data[prop].data);*/
+						
+						
+
+                        const getNewFetchData = propArr => propArr.map(prop => { // jshint ignore:line
+
+                                if (prop.label !== undefined && metricDateResults) { // jshint ignore:line
+
+                                    return reformatFetchData(prop.label)(metricDateResults);// jshint ignore:line
+
+                                }
+
+                            });
+
+                        data[prop] = data[prop].filter(propSet => propSet.label !== metricDataResultsKey); // jshint ignore:line
+
+                        switch (prop) {
+
+                        case 'labels':
+                            data[prop] = metricDateResults;
 
                             break;
 
-                            case 'datasets':								
-                                
-                                data[prop] = [...data[prop], createDataset({ metricDataResultsKey: metricDataResultsKey, metricDataResultsArray: metricDataResultsArray})(backgroundColorProps)(borderColorProps)];                           
+                        case 'datasets':
+
+                            const newDataPropFetchData = [...getNewFetchData(data[prop])];
+
+                            //console.log(newDataPropFetchData);
+							
+							newDataPropFetchData.forEach(dataset => refetchData(dataset)(state)); // jshint ignore:line
+
+                            data[prop] = [...data[prop], createDataset({
+                                    metricDataResultsKey: metricDataResultsKey,
+                                    metricDataResultsArray: metricDataResultsArray
+                                })(backgroundColorProps)(borderColorProps)];
+
+                            /*newDataPropFetchData.map(newDataset => {
+
+                            console.log(newDataset);
+
+
+
+                            const { newMetricArgsObjects, newDateArgsObjects } = newDataset;
+
+                            console.log(newDateArgsObjects);
+
+                            fetchData(newMetricArgsObjects, newDateArgsObjects, 10);
+
+                            if (recurseLimit > 0) {
+
+
+                            fetchData(newMetricArgsObjects, newDateArgsObjects, displayChart.data.dataset.length);
+
+
+
+                            recurseLimit--;
+
+                            } else {
+
+                            data[prop] = [...data[prop], createDataset({ metricDataResultsKey: metricDataResultsKey, metricDataResultsArray: metricDataResultsArray})(backgroundColorProps)(borderColorProps)];
+
+                            return;
+
+                            }
+
+                            });*/
 
                             break;
 
@@ -173,27 +235,24 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
                     displayChart.update();
 
                     state = setState(state)({
-                    
-                        displayChart: displayChart,
-                        metricDataResultsKey: metricDataResultsKey,
-                        metricDataResultsArray: metricDataResultsArray,
-                        metricDateResults: metricDateResults
-                    
-                    });
-                    
+
+                            displayChart: displayChart,
+                            metricDataResultsKey: metricDataResultsKey,
+                            metricDataResultsArray: metricDataResultsArray,
+                            metricDateResults: metricDateResults,
+                            //recurseLimit: recurseLimit
+
+                        });
 
                 }
 
-                
+                // console.log(state);
 
-                console.log(state);
-               
             }
 
         }
 
     };
-
 
     xhr.open('POST', googleAPIPath);
 
@@ -201,7 +260,4 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
     xhr.send(JSON.stringify(JSONPackage));
 
-    
-
-    
 };
