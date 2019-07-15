@@ -2,26 +2,26 @@ import { checkType } from '../helper-funcs/checktype';
 
 export const liftMetricPropsFromArray = metricArray => {
 
-
     return metricArray.reduce( ( acc, curr ) => {
 
-        const { metricData } = curr;
+		//const metricData = curr.metricData;
+		
+		const { metricData } = curr;
 
-        const { metricName, metricValue } = metricData;
+		const { metricName, metricValue } = metricData;
 
-        if ( checkType( acc[ metricName ] ) !== 'array') {
+		if ( checkType( acc[ metricName ] ) !== 'array') {
 
-            acc[ metricName ] = []; 
+			acc[ metricName ] = []; 
 
-        } else {
+		} else {
 
-            acc[ metricName ].push( metricValue );
+			acc[ metricName ].push( metricValue );
 
-        }
+		}
 
-        return acc;
+		return acc;
 
     }, {});
 
 };
-
