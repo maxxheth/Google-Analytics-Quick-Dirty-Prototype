@@ -1,8 +1,4 @@
-//import { GAOptions } from './gapi-options';
-
 export const reformatFetchData = label => dateRange => {
-	
-	//console.log(state);
 	
 	const dateRangeLen = dateRange.length;
 	
@@ -17,8 +13,6 @@ export const reformatFetchData = label => dateRange => {
 		let labelWords = label.split(' ');
 		
 		let capitalLetter = labelWords[1].split('')[0].toUpperCase();
-		
-		//console.log(capitalLetter);
 		
 		labelWords[1] = labelWords[1].replace(labelWords[1][0], capitalLetter);
 		
@@ -37,7 +31,6 @@ export const reformatFetchData = label => dateRange => {
 		gapiExprArr.fill(gapiObj, 0, dateRangeLen);
 		
 	}
-
 
 	const dateObjRange = dateRange.reduce((acc, curr, currIndex, arr) => {
 		
