@@ -3,8 +3,6 @@ import { checkType } from '../helper-funcs/checktype';
 export const liftMetricPropsFromArray = metricArray => {
 
     return metricArray.reduce( ( acc, curr ) => {
-
-		//const metricData = curr.metricData;
 		
 		const { metricData } = curr;
 
