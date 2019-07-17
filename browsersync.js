@@ -1,3 +1,5 @@
+/* global require */
+
 const browsersync = require('browser-sync').create();
 
 browsersync.watch('*.php').on('change', browsersync.reload);
