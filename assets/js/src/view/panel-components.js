@@ -6,8 +6,6 @@ import { dateRangeOptions } from '../data/date-ranges';
 
 import { createOptionComponents } from '../helper-funcs/component-helpers';
 
-//export const panelTitle = el('h1.panel__title', "Analytics Dashboard");
-
 export class ToggleButton {
 
     constructor() {
@@ -98,7 +96,6 @@ class PanelCardCont {
 
         this.el = el('.panel-card__cont', 
         
-            
             new PanelCardContStats()
 
         );
@@ -144,7 +141,7 @@ class PanelMainCont {
         
         this.el = el('.panel-card__main-cont',
 
-            this.panelChartArea = el('.panel-card__chart-cont', el('canvas#panel-chart')),
+            this.panelChartArea = el('.panel-card__chart-cont', el('canvas.panel-chart')),
             new PanelCardContSelect()
 
         );
@@ -160,11 +157,23 @@ class PanelCard {
         this.el = el('.panel-card.uk-card.uk-card-body',
         
         this.PanelCardTitle = el('h1.panel__title', "Analytics Dashboard"),
+
+            new ChartModalButton(),
             new PanelMainCont(),
             new PanelCardCont(),
             this.PanelCardContent = el('p.panel-card__content', content)
 
         );
+
+    }
+
+}
+
+class ChartModalButton {
+
+    constructor() {
+
+        this.el = el('button#chart-modal-button', 'Expand Chart');
 
     }
 
@@ -176,6 +185,7 @@ export class Panel {
 
         this.el = el('panel.panel.uk-grid',
 
+         
             this.panelCard_01 = new PanelCard("Card Title 01", "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium")
 
         );

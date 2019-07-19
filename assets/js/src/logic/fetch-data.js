@@ -92,66 +92,62 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
                     const chartElem = document.createElement('canvas');
 
-                    chartElem.id = 'panel-chart';
+                    chartElem.classList.add('panel-chart');
 
                     dummyChartParent.appendChild(chartElem);
                     
                 }
 
-                const chart = document.getElementById('panel-chart');
+                const chart = document.querySelector('.panel-chart');
 
                 chart.style.backgroundColor = 'white';
 
                 let displayChart;
 
+                const displayChartConfig = {
+
+                    type: 'line',
+                    data: {
+                        labels: metricDateResults,
+                        datasets: [{
+
+                                label: metricDataResultsKey,
+                                data: metricDataResultsArray,
+                                backgroundColor: [
+                                    'rgba(255, 99, 132, 0.2)',
+                                    'rgba(54, 162, 235, 0.2)',
+                                    'rgba(255, 206, 86, 0.2)',
+                                    'rgba(75, 192, 192, 0.2)',
+                                    'rgba(153, 102, 255, 0.2)',
+                                    'rgba(255, 159, 64, 0.2)'
+                                ],
+                                borderColor: [
+                                    'rgba(255, 99, 132, 1)',
+                                    'rgba(54, 162, 235, 1)',
+                                    'rgba(255, 206, 86, 1)',
+                                    'rgba(75, 192, 192, 1)',
+                                    'rgba(153, 102, 255, 1)',
+                                    'rgba(255, 159, 64, 1)'
+                                ],
+                                borderWidth: 1
+
+                            }
+                        ]
+                    },
+                    options: {
+
+                        responsive: true,
+                        maintainAspectRatio: false
+        
+                    }
+
+                };
+
                 if (state.length === 0) {
 
                     console.log("displayChart doesn't exist...yet!");
 
-                    displayChart = new Chart(chart.getContext('2d'), {
-
-                            type: 'line',
-                            data: {
-                                labels: metricDateResults,
-                                datasets: [{
-
-                                        label: metricDataResultsKey,
-                                        data: metricDataResultsArray,
-                                        backgroundColor: [
-                                            'rgba(255, 99, 132, 0.2)',
-                                            'rgba(54, 162, 235, 0.2)',
-                                            'rgba(255, 206, 86, 0.2)',
-                                            'rgba(75, 192, 192, 0.2)',
-                                            'rgba(153, 102, 255, 0.2)',
-                                            'rgba(255, 159, 64, 0.2)'
-                                        ],
-                                        borderColor: [
-                                            'rgba(255, 99, 132, 1)',
-                                            'rgba(54, 162, 235, 1)',
-                                            'rgba(255, 206, 86, 1)',
-                                            'rgba(75, 192, 192, 1)',
-                                            'rgba(153, 102, 255, 1)',
-                                            'rgba(255, 159, 64, 1)'
-                                        ],
-                                        borderWidth: 1
-
-                                    }
-                                ]
-                            },
-                            options: {
-
-                                responsive: true,
-                                maintainAspectRatio: false
-                    
-                                // onResize: () => {
-                    
-                                //     this.update();
-                    
-                                // }
-                    
-                            }
-
-                        });
+                    displayChart = new Chart(chart.getContext('2d'), displayChartConfig);
 
                     state = setState(state)({
 
@@ -202,6 +198,8 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
                                     metricDataResultsArray: metricDataResultsArray
                                 })(backgroundColorProps)(borderColorProps)];
 
+                            console.log(data[prop]);
+
                             break;
 
                         }
@@ -209,6 +207,18 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
                     }
 
                     displayChart.update();
+
+                    const chartModal = document.querySelector('.chart-modal__chart');
+
+                    //const newDisplayChartConfig = Object.create(displayChartConfig);
+
+                    console.log(data);
+
+                    const modalDisplayChart = new Chart(chartModal.getContext('2d'), {type: 'line', data: Object.create(data) });
+
+                    console.log(modalDisplayChart);
+
+                    modalDisplayChart.update();
 
                     state = setState(state)({
 
