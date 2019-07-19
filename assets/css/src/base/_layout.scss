@@ -6,7 +6,18 @@
     justify-content: center;
 }
 
-.uk-card-primary {
-    width: 40%;
+.uk-card-body {
+    
     margin: 1rem;
+    width: 70%;
+    background-color: #539BA2;
+    
+    & h1, h2, h3, h4, h5, h6, p {
+
+        color: #fff;
+
+    }
+
+    border-radius: 20px;
+
 }
