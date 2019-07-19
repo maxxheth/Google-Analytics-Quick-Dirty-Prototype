@@ -210,13 +210,7 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
                     const chartModal = document.querySelector('.chart-modal__chart');
 
-                    //const newDisplayChartConfig = Object.create(displayChartConfig);
-
-                    console.log(data);
-
                     const modalDisplayChart = new Chart(chartModal.getContext('2d'), {type: 'line', data: Object.create(data) });
-
-                    console.log(modalDisplayChart);
 
                     modalDisplayChart.update();
 
