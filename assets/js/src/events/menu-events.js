@@ -18,6 +18,10 @@ const menuToggle = toggleElem => menuElem => viewElem => openPropArgs => {
 
     };
 
+    // const panelCardCont = document.querySelector('.panel-card__cont');
+
+    // const panelCardContSelectElems = [...document.querySelectorAll('.panel-card__cont--select')];
+
     toggleElem.el.addEventListener('click', () => {
 
         if (toggleElem.toggle) {
@@ -26,11 +30,19 @@ const menuToggle = toggleElem => menuElem => viewElem => openPropArgs => {
 
             toggleElem.update('Close', false);
 
+            // panelCardCont.style.width = 'auto';
+
+            // panelCardContSelectElems.forEach(elem => elem.style.width = '60%');
+
         } else {
 
             setStyleProps(menuElem)(viewElem)(closePropArgs);
         
             toggleElem.update('Open', true);
+
+            // panelCardCont.style.removeProperty('width');
+
+            // panelCardContSelectElems.forEach(elem => elem.style.removeProperty('width'));
 
         }
     
