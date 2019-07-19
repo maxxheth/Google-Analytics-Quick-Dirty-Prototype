@@ -45,8 +45,7 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
             break;
 
         case 4:
-            
-
+        
             console.log(xhr.response);
 
             if (isJSON(xhr.response)) {
@@ -82,6 +81,22 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
                     'rgba(153, 102, 255, 1)',
                     'rgba(255, 159, 64, 1)'
                 ];
+
+                const dummyChart = document.querySelector('[data-dummy="1"]');
+                
+                if (dummyChart) {
+
+                    const dummyChartParent = dummyChart.parentNode;
+
+                    dummyChartParent.removeChild(dummyChart);
+
+                    const chartElem = document.createElement('canvas');
+
+                    chartElem.id = 'panel-chart';
+
+                    dummyChartParent.appendChild(chartElem);
+                    
+                }
 
                 const chart = document.getElementById('panel-chart');
 
@@ -122,6 +137,18 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
                                     }
                                 ]
+                            },
+                            options: {
+
+                                responsive: true,
+                                maintainAspectRatio: false
+                    
+                                // onResize: () => {
+                    
+                                //     this.update();
+                    
+                                // }
+                    
                             }
 
                         });
@@ -167,8 +194,6 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
                         case 'datasets':
 
                             const newDataPropFetchData = [...getNewFetchData(data[prop])];
-
-                            //console.log(newDataPropFetchData);
 							
 							newDataPropFetchData.forEach(dataset => refetchData(dataset)(state)); // jshint ignore:line
 
