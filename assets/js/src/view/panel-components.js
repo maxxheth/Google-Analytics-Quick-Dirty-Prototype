@@ -128,7 +128,7 @@ class PanelCardContSelect {
             new PanelGAPIForm(),
             new PanelGAPIForm(),
             new PanelGAPIForm(),
-            new PanelGAPIForm(),
+            new PanelGAPIForm()
              
         );
     }
@@ -173,7 +173,7 @@ class ChartModalButton {
 
     constructor() {
 
-        this.el = el('button#chart-modal-button', 'Expand Chart');
+        this.el = el('button#chart-modal-button.uk-button.uk-button-primary', 'Open Chart');
 
     }
 
