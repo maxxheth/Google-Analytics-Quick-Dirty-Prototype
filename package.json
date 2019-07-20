@@ -50,6 +50,7 @@
     "js-cookie": "^2.2.0",
     "leaflet": "^1.5.1",
     "livereload-js": "^3.0.0",
+    "moment": "^2.24.0",
     "node-watch": "^0.6.2",
     "parallax-vanilla": "^1.1.2",
     "randomcolor": "^0.5.4",
