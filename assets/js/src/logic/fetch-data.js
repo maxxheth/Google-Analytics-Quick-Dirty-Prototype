@@ -172,7 +172,7 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
                                 if (prop.label !== undefined && metricDateResults) { // jshint ignore:line
 
-                                    return reformatFetchData(prop.label)(metricDateResults);// jshint ignore:line
+                                    return reformatFetchData(prop.label)(metricDateResults); // jshint ignore:line
 
                                 }
 
