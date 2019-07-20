@@ -1,5 +1,5 @@
 {
-    "esversion": 9, 
+    "esversion": 6, 
     "strict": "implied",
     "noempty": true,
     "shadow": true,
