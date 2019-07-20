@@ -17,11 +17,15 @@ toggleButton.update('Open', true);
 
 const view = el('article.view', [toggleButton, panelTitle, panel]);
 
-const chartModal = el('aside.chart-modal__cont', el('canvas.chart-modal__chart'));
+const chartModalChildren = [el('canvas.chart-modal__chart'), el('button.chart-modal__close-button', 'X')];
+
+const chartModal = el('aside.chart-modal__cont', chartModalChildren);
 
 const sidebar = new Menu();
 
-const dashboard = el('main.dashboard', [sidebar, view, chartModal]);
+const viewCont = el('div.view-cont', [sidebar, view, ]);
+
+const dashboard = el('main.dashboard', [viewCont, chartModal]);
 
 mount(document.body, dashboard);
 
