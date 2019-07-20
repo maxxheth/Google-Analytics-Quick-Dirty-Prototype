@@ -63,6 +63,16 @@ $unpackedArgsArray = unpackArgsAssemblyLine($combinedArgs);
 
 $reportArray = generateReportArray('createReport', 'getResults', $unpackedArgsArray);
 
+$reportArraySerialized = serialize($reportArray);
+
+$pdo = connect('localhost', '3306', 'tnt_db', 'root', '');
+
+$pdo_stmt = $pdo->prepare('INSERT INTO json_cache (gapi_blob) VALUES (:gapi_blob)');
+
+$pdo_stmt->bindParam(':gapi_blob', $reportArraySerialized, PDO::PARAM_STR);
+
+$pdo_stmt->execute();
+
 print_r(json_encode($reportArray));
 
 function setDates($startDate, $endDate) {
