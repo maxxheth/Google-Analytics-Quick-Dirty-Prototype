@@ -1,26 +1,44 @@
+/* global document */
+
 export const prepChartModal = chartModal => chartModalButton => {
 
     if (!chartModal || !chartModalButton) return;
 
     let doShowModal = true;
 
-    chartModalButton.addEventListener('click', e => {
+    const viewCont = document.querySelector('.view-cont');
 
-        if (doShowModal)  {
+    viewCont.style.transition = '0.2s all ease-in-out';
 
-            chartModal.classList.add('chart-modal__toggle');
+    const innerModalButton = document.querySelector('.chart-modal__close-button');
 
-            e.currentTarget.textContent = 'Shrink Chart';
+    const buttons = [chartModalButton, innerModalButton];
 
-            doShowModal = false;
+    document.addEventListener('click', e => {
 
-        } else {
+        if (e.target === buttons[0] || e.target === buttons[1]) {
 
-            chartModal.classList.remove('chart-modal__toggle');
+            if (doShowModal)  {
 
-            e.currentTarget.textContent = 'Expand Chart';
+                chartModal.classList.add('chart-modal__toggle');
 
-            doShowModal = true;
+                chartModalButton.textContent = 'Close Chart';
+
+                doShowModal = false;
+
+                viewCont.style.opacity = '0.2';
+
+            } else {
+
+                chartModal.classList.remove('chart-modal__toggle');
+
+                chartModalButton.textContent = 'Open Chart';
+
+                doShowModal = true;
+
+                viewCont.style.opacity = '1';
+
+            }
 
         }
 
