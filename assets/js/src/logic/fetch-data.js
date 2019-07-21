@@ -240,17 +240,17 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
                             metricDateResults: metricDateResults,
                     });
 
-                    // const summaryData = {
-                    //     metricDataResultsKey: metricDataResultsKey,
-                    //     metricDataResultsArray: metricDataResultsArray,
-                    //     metricDateResults: metricDateResults 
-                    // };
+                    const summaryData = {
+                        metricDataResultsKey: metricDataResultsKey,
+                        metricDataResultsArray: metricDataResultsArray,
+                        metricDateResults: metricDateResults 
+                    };
 
-                    // const summaryState = displayData(summaryData);
+                    const summaryState = displayData(summaryData);
 
-                    // console.info('Summary State', summaryState);
+                    console.info('Summary State', summaryState);
 
-                    // console.log(state);
+                    console.log(state);
 
                 }
 
