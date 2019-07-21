@@ -1,4 +1,4 @@
-/* global XMLHttpRequest */
+/* global document, XMLHttpRequest */
 
 import { isJSON } from '../helper-funcs/is-json';  
 
@@ -7,6 +7,10 @@ import { createDataset } from './chart-datasets';
 import { liftMetricPropsFromArray } from '../logic/lift-metric-props'; 
 
 import { setState } from './state';
+
+import Chart from 'chart.js';
+
+import { displayData } from '../data/display-data';
 
 const googleAPIPath = '../../../../fetchgapidata.php';
 
@@ -71,11 +75,7 @@ export const refetchData = refetchProps => state => {
 
             console.log('Data has been fetched successfully!');
 
-            console.log(xhr.response);
-
             if (xhr.status === 200 && isJSON(xhr.response)) {
-
-                const response = JSON.parse(xhr.response);
 
                 const metricData = JSON.parse(xhr.response).filter(data => data !== null);
 
@@ -137,7 +137,13 @@ export const refetchData = refetchProps => state => {
 
                 displayChart.update();
 
-                setState(state)({
+                const chartModal = document.querySelector('.chart-modal__chart');
+
+                const modalDisplayChart = new Chart(chartModal.getContext('2d'), {type: 'line', data: Object.create(data) });
+
+                modalDisplayChart.update();
+
+                let freshState = setState(state)({
 
                     displayChart: displayChart,
                     metricDataResultsKey: metricDataResultsKey,
@@ -145,6 +151,18 @@ export const refetchData = refetchProps => state => {
                     metricDateResults: metricDateResults,
 
                 });
+
+                const summaryData = {
+                    metricDataResultsKey: metricDataResultsKey,
+                    metricDataResultsArray: metricDataResultsArray,
+                    metricDateResults: metricDateResults 
+                };
+
+                const summaryState = displayData(summaryData);
+
+                console.info('Summary State', summaryState);
+
+                console.log(state);
 
             }
 

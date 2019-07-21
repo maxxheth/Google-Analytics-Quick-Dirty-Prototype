@@ -10,8 +10,8 @@
     "postCSS": "node postcss-bundler.js",
     "bundleCSS": "npm run nodeSass && npm run postCSS",
     "bundle": "npm run bundleJS && npm run bundleCSS",
-    "watch-files": "babel-node file-watch.js",
-    "watch-browser": "node browsersync.js"
+    "watchFiles": "babel-node fileWatcher.js",
+    "watchBrowser": "node browsersync.js"
   },
   "devDependencies": {
     "autoprefixer": "^9.6.1",

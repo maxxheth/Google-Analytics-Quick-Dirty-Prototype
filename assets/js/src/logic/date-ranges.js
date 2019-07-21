@@ -21,7 +21,7 @@ export const extrapolateDateRange = dateRange => dateRangeObject => calcDateObje
 
     const dateRanges = [];
 
-    console.info(dateRangeObject[dateRange]);
+    // console.info(dateRangeObject[dateRange]);
 
     const todaysDate = moment().format(GAPIFormat);
 
@@ -51,7 +51,7 @@ export const extrapolateDateRange = dateRange => dateRangeObject => calcDateObje
 
     }
 
-    console.log(dateRanges);
+    // console.log(dateRanges);
 
     return dateRanges;
 

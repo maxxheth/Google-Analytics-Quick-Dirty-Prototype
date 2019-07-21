@@ -15,7 +15,7 @@ browsersync.init({
     namespace: function (namespace) {
         return "localhost:3000" + namespace;
     },
-    reloadDebounce: 2000
+    reloadDebounce: 1000
 
 });
 

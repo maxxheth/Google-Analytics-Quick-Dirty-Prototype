@@ -1,5 +1,6 @@
 .view {
     transition: 0.5s all ease-in-out;
+    background-color: #e4e5e7;
 }
 
 .uk-grid {
@@ -10,7 +11,8 @@
     
     margin: 1rem;
     width: 70%;
-    background-color: #539BA2;
+    background-color: #20a8da;
+    box-shadow: 0px 3px 11px 0px black;
     
     & h1, h2, h3, h4, h5, h6, p {
 

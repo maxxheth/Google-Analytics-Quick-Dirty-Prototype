@@ -15,6 +15,15 @@
         
     }
 
+    &-chart {
+        
+        background-color: #fff;
+        border-radius: 1rem;
+        height: 500px;
+        box-shadow: 0px 2px 8px -1px black;
+
+    }
+
     &-card {
 
             &__form {
@@ -62,15 +71,33 @@
         &__select {
 
             width: 30% !important;
+            box-shadow: 0px 2px 4px 0px black;
+            cursor: pointer;
 
         }
 
-        &__submit {
+        &__submit, #chart-modal-button {
 
-            background-color: #E84F11;
+            background-color: #CD3B51;
             width: 28%;
             text-align: center;
             padding: 0;
+            box-shadow: 0px 2px 4px 0px black;
+
+        }
+
+        #chart-modal-button {
+
+            width:unset;
+            padding: 0.5rem 1rem !important;
+            font-size:1rem;
+            border: unset;
+            border-radius: 0.5rem;
+            position: absolute;
+
+            &:hover {
+                background-color: #1e87f0;
+            }
 
         }
 
@@ -88,9 +115,10 @@
         left: 50%;
         transition: 0.2s all ease-in-out;
         opacity: 0;
-        background: blue;
+        background: #fff;
+        border: 2px solid black;
         width: 60%;
-        height: 40%;
+        height: 80%;
         
     }
 
@@ -110,13 +138,18 @@
 
     }
 
-}
+    &__close-button {
 
-.panel-chart {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: red;
+        color: white;
+        font-size: 1rem;
+        font-weight: 600;
+        border: unset;
+        cursor: pointer;
 
-   
-    background-color: #fff;
-    border-radius: 1rem;
-    height: 500px;
+    }
 
 }

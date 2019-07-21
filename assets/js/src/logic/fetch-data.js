@@ -14,6 +14,8 @@ import { isJSON } from '../helper-funcs/is-json';
 
 import { refetchData } from '../data/refetch-data'; 
 
+import { displayData } from '../data/display-data';
+
 const googleAPIPath = '../../../../fetchgapidata.php';
 
 let state = [];
@@ -46,7 +48,7 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
         case 4:
         
-            console.log(xhr.response);
+            // console.log(xhr.response);
 
             if (isJSON(xhr.response)) {
 
@@ -149,6 +151,16 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
                     displayChart = new Chart(chart.getContext('2d'), displayChartConfig);
 
+                    const chartModal = document.querySelector('.chart-modal__chart');
+
+                    const modalDisplayChart = new Chart(chartModal.getContext('2d'), displayChartConfig);
+
+                    modalDisplayChart.update();
+
+                    console.info('metricDataResultsKey', metricDataResultsKey);
+                    console.info('metricDataResultsArray', metricDataResultsArray);
+                    console.info('metricDateResults', metricDateResults);
+
                     state = setState(state)({
 
                             displayChart: displayChart,
@@ -156,7 +168,19 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
                             metricDataResultsArray: metricDataResultsArray,
                             metricDateResults: metricDateResults,
 
-                        });
+                    });
+
+                    const summaryData = {
+                        metricDataResultsKey: metricDataResultsKey,
+                        metricDataResultsArray: metricDataResultsArray,
+                        metricDateResults: metricDateResults 
+                    };
+
+                    const summaryState = displayData(summaryData);
+
+                    console.info('Summary State', summaryState);
+
+                    // console.log(state);
 
                 } else {
 
@@ -198,7 +222,7 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
                                     metricDataResultsArray: metricDataResultsArray
                                 })(backgroundColorProps)(borderColorProps)];
 
-                            console.log(data[prop]);
+                            // console.log(data[prop]);
 
                             break;
 
@@ -208,19 +232,25 @@ export const fetchData = (metricArgsObjects, dateArgsObjects) => {
 
                     displayChart.update();
 
-                    const chartModal = document.querySelector('.chart-modal__chart');
-
-                    const modalDisplayChart = new Chart(chartModal.getContext('2d'), {type: 'line', data: Object.create(data) });
-
-                    modalDisplayChart.update();
-
                     state = setState(state)({
 
                             displayChart: displayChart,
                             metricDataResultsKey: metricDataResultsKey,
                             metricDataResultsArray: metricDataResultsArray,
                             metricDateResults: metricDateResults,
-                        });
+                    });
+
+                    // const summaryData = {
+                    //     metricDataResultsKey: metricDataResultsKey,
+                    //     metricDataResultsArray: metricDataResultsArray,
+                    //     metricDateResults: metricDateResults 
+                    // };
+
+                    // const summaryState = displayData(summaryData);
+
+                    // console.info('Summary State', summaryState);
+
+                    // console.log(state);
 
                 }
 
