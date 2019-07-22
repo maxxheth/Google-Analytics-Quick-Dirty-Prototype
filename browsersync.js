@@ -14,8 +14,7 @@ browsersync.init({
 
     namespace: function (namespace) {
         return "localhost:3000" + namespace;
-    },
-    reloadDebounce: 1000
+    }
 
 });
 
@@ -25,4 +24,4 @@ setInterval(() => {
 
     browsersync.reload();
 
-}, 60 * 15000);
+}, 60 * 30000);
