@@ -12,10 +12,9 @@ export const createDataset = metrics => (...bgColors) => (...bdColors) => {
         data: metricDataResultsArray,
         backgroundColor: backgroundColor,
         borderColor: borderColor,
-        borderWidth: 1,
+        borderWidth: 1
     };
 
     return datasetProps;
-
 
 };
