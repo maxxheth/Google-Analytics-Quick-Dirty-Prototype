@@ -1,5 +1,3 @@
-/* global document */
-
 import { el, mount } from 'redom';
 import { Panel, panelTitle, ToggleButton } from './view/panel-components';
 import { Menu } from './view/menu-components';
@@ -23,7 +21,7 @@ const chartModal = el('aside.chart-modal__cont', chartModalChildren);
 
 const sidebar = new Menu();
 
-const viewCont = el('div.view-cont', [sidebar, view, ]);
+const viewCont = el('div.view-cont', [sidebar, view]);
 
 const dashboard = el('main.dashboard', [viewCont, chartModal]);
 
