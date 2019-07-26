@@ -13,15 +13,17 @@ browsersync.watch('./assets/css/dist/*.css').on('change', browsersync.reload);
 browsersync.init({
 
     namespace: function (namespace) {
-        return "localhost:3000" + namespace;
+
+        return 'localhost:3000' + namespace;
+    
     }
 
 });
 
-setInterval(() => {
+// setInterval(() => {
 
-    console.clear();
+//     console.clear();
 
-    browsersync.reload();
+//     browsersync.reload();
 
-}, 60 * 30000);
+// }, 60 * 30000);
