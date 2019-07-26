@@ -45,7 +45,7 @@ $filteredDimensionArgs = filterNestedArrayArgs($dimensionArgs);
 require_once __DIR__ . '/vendor/autoload.php';
 
 
-$KEY_FILE_LOCATION = __DIR__ . '/tnt-auth2.json';
+$KEY_FILE_LOCATION = __DIR__ . '/tnt-auth.json';
 $VIEW_ID = "104508326";
 // Create and configure a new client object.
 $client = new Google_Client();
