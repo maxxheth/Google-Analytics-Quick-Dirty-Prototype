@@ -11,7 +11,9 @@
     "bundleCSS": "npm run nodeSass && npm run postCSS",
     "bundle": "npm run bundleJS && npm run bundleCSS",
     "watchFiles": "babel-node fileWatcher.js",
-    "watchBrowser": "node browsersync.js"
+    "watchBrowser": "node browsersync.js",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "devDependencies": {
     "autoprefixer": "^9.6.1",
@@ -62,9 +64,11 @@
     "swiper": "^4.3.5",
     "uikit": "^3.1.6",
     "universal-parallax": "^1.2.2",
-    "vanilla-tilt": "^1.4.1"
+    "vanilla-tilt": "^1.4.1",
+    "snyk": "^1.316.1"
   },
   "browserslist": [
     "since 2017-06"
-  ]
+  ],
+  "snyk": true
 }
